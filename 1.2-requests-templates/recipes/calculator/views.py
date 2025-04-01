@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.template.context_processors import request
 
 DATA = {
     'omlet': {
@@ -16,8 +17,8 @@ DATA = {
         'сыр, ломтик': 1,
         'помидор, ломтик': 1,
     },
-    # можете добавить свои рецепты ;)
 }
+# можете добавить свои рецепты ;)
 
 # Напишите ваш обработчик. Используйте DATA как источник данных
 # Результат - render(request, 'calculator/index.html', context)
@@ -28,3 +29,33 @@ DATA = {
 #     'ингредиент2': количество2,
 #   }
 # }
+
+def omlet(request):
+    context = {}
+    servings = int(request.GET.get('servings', 1))
+    for i in DATA:
+        if i == 'omlet':
+            context['recipe'] = DATA[i].copy()
+            for a,b in context['recipe'].items():
+                context['recipe'][a] = b * servings
+    return render(request, 'calculator/index.html', context)
+
+def pasta(request):
+    context = {}
+    servings = int(request.GET.get('servings', 1))
+    for i in DATA:
+        if i == 'pasta':
+            context['recipe'] = DATA[i].copy()
+            for a,b in context['recipe'].items():
+                context['recipe'][a] = b * servings
+    return render(request, 'calculator/index.html', context)
+
+def buter(request):
+    context = {}
+    servings = int(request.GET.get('servings', 1))
+    for i in DATA:
+        if i == 'buter':
+            context['recipe'] = DATA[i].copy()
+            for a,b in context['recipe'].items():
+                context['recipe'][a] = b * servings
+    return render(request, 'calculator/index.html', context)
